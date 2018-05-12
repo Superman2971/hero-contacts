@@ -1,0 +1,27 @@
+{
+  "name": "hero-server",
+  "version": "0.0.1",
+  "description": "Server Side for Hero Contacts",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/webpack/bin/webpack.js --config webpack.config.js",
+    "start": "npm run build && ./node_modules/node/bin/node ./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Superman2971/hero-contacts/blob/master/server"
+  },
+  "author": "Ian Golfarb",
+  "license": "MIT",
+  "dependencies": {
+    "@types/express": "^4.11.1",
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "node": "^8.11.1",
+    "ts-loader": "^4.3.0",
+    "typescript": "^2.8.3",
+    "webpack": "^4.8.2",
+    "webpack-cli": "^2.1.3"
+  }
+}
