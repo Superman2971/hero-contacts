@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HeroFormService } from './hero-form.service';
 
 @Component({
   selector: 'hero-form',
@@ -15,9 +16,12 @@ export class HeroFormComponent {
   };
   disbaled = true;
 
-  constructor() {}
+  constructor(private formService: HeroFormService) {}
 
   submit() {
     console.log(this.form);
+    this.formService.test().subscribe((response) => {
+      console.log('API request: ', response);
+    });
   }
 }
