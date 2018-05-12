@@ -20,7 +20,7 @@ export class HeroFormComponent {
 
   submit() {
     console.log(this.form);
-    this.formService.test().subscribe((response) => {
+    this.formService.postHero(this.form).subscribe((response) => {
       console.log('API request: ', response);
     });
   }

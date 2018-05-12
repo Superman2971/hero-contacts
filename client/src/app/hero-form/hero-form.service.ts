@@ -11,4 +11,8 @@ export class HeroFormService {
   public test(): Observable<any> {
     return this.http.get(`${environment.api_url}/test`);
   }
+
+  public postHero(hero): Observable<any> {
+    return this.http.post(`${environment.api_url}/hero`, hero);
+  }
 }
