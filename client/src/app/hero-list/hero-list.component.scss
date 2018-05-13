@@ -17,9 +17,55 @@
     border-radius: 2px;
     background-color: #fff;
     box-shadow: $box-shadow-level-1;
+    color: $secondary;
     height: 100%;
-    padding: 16px;
+    position: relative;
     width: 100%;
+
+    .header {
+      border-bottom: 1px solid $secondary;
+      align-items: center;
+      display: grid;
+      grid-gap: 16px;
+      grid-template-columns: 1fr 24px 24px;
+      justify-content: flex-start;
+      padding: 16px;
+
+      .name {
+        font-size: 24px;
+        white-space: none;
+      }
+
+      i {
+        color: $primary-light;
+        cursor: pointer;
+  
+        &:hover {
+          color: $primary;
+        }
+      }
+    }
+
+    .body {
+      display: grid;
+      grid-gap: 16px;
+      grid-template-columns: 1fr;
+      padding: 16px;
+
+      a {
+        color: $primary-light;
+        cursor: pointer;
+        text-decoration: none;
+
+        &:hover {
+          color: $primary;
+        }
+      }
+
+      span {
+        color: $primary-light;
+      }
+    }
   }
 
   .button {

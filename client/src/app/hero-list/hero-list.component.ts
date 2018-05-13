@@ -17,4 +17,9 @@ export class HeroListComponent {
   goToForm(hero?) {
     this.event.emit(hero);
   }
+
+  deleteHero(index) {
+    this.listServive.fakeDatabase.splice(index, 1);
+    this.heroes = this.listServive.fakeDatabase;
+  }
 }

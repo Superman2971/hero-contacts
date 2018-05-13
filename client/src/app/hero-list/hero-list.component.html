@@ -1,7 +1,17 @@
 <div class="list">
-  <div class="card" *ngFor="let hero of heroes;">
-    <i class="material-icons" (click)="goToForm(hero)">edit</i>
-    <div>{{hero | json}}</div>
+  <div class="card" *ngFor="let hero of heroes; let i = index">
+    <div class="header">
+      <div class="name">
+        <span [innerHtml]="hero.name.first"></span>&nbsp;<span [innerHtml]="hero.name.last"></span>
+      </div>
+      <i class="material-icons" (click)="goToForm(hero)">edit</i>
+      <i class="material-icons" (click)="deleteHero(i)">delete</i>
+    </div>
+    <div class="body">
+      <a [href]="'mailto:' + hero.email" [innerHtml]="hero.email"></a>
+      <div>Age: <span [innerHtml]="hero.age"></span></div>
+      <div>Favorite Food: <span [innerHtml]="hero.faveFood"></span></div>
+    </div>
   </div>
   <div class="button" (click)="goToForm()">
     <i class="material-icons">person_add</i>
