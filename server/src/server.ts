@@ -2,20 +2,22 @@ import { createServer, Server } from 'http';
 import * as express from 'express';
 import * as firebase from 'firebase';
 import * as BodyParser from 'body-parser';
+import { celebrate, Joi, errors } from 'celebrate';
+import { firebaseAPI } from '../firebase.api';
 
 export class HeroServer {
   private app: express.Application;
   private server: Server;
   private port: string | number = 3080;
-  // private valid_hero_schema = Joi.object().keys({
-  //   name: Joi.object().keys({
-  //     first: Joi.string().required(),
-  //     last: Joi.string().required()
-  //   }),
-  //   age: Joi.number().min(1).max(1000).required(),
-  //   email: Joi.string().required(),
-  //   faveFood: Joi.string().required()
-  // });
+  private valid_hero_schema = Joi.object().keys({
+    name: Joi.object().keys({
+      first: Joi.string().required(),
+      last: Joi.string().required()
+    }),
+    age: Joi.number().min(1).max(1000).required(),
+    email: Joi.string().required(),
+    faveFood: Joi.string().required()
+  });
 
   constructor() {
     this.createApp();
@@ -65,23 +67,39 @@ export class HeroServer {
       res.send({test: 'success'});
     });
     // initial POST route for adding new Hero
-    this.app.post('/hero', (req, res) => {
-      const errors = this.validateHeroSchema(req.body);
+    this.app.post('/hero', celebrate({
+      body: this.valid_hero_schema
+    }), (req, res) => {
+      // const errors = this.validateHeroSchema(req.body);
       // replace '.' which are not allowed in an ID for Firebase
       const emailId = req.body.email.replace('.', '%2E');
+      // Create a deep copy of the data object with JSON.parse(JSON.stringify(obj))
+      const heroData = JSON.parse(JSON.stringify({
+        name: {
+          first: req.body.first,
+          last: req.body.last
+        },
+        email: req.body.email,
+        age: req.body.age,
+        faveFood: req.body.faveFood
+      }));
+      console.log('happening?');
+      firebase.database().ref('/').once('value', (data) => {
+        console.log('something', data.val());
+      });
       // write the data to our database
-      // firebase.database().ref('heroes/' + emailId).set({
-      //   name: {
-      //     first: req.body.first,
-      //     last: req.body.last
-      //   },
-      //   email: req.body.email,
-      //   age: req.body.age,
-      //   faveFood: req.body.faveFood
-      // });
-      // let user know it worked out
-      res.send({status: 'success', request: req.body});
+      firebase.database().ref('heroes/' + emailId).set(heroData)
+      .then((success) => {
+        console.log('promise + ', success);
+        // let user know it worked out
+        res.send({status: 'success', request: req.body});
+      }).catch((failure) => {
+        console.log('promise - ', failure);
+        // let user know it worked out
+        res.send({status: 'failure', request: req.body});
+      });
     });
+    this.app.use(errors());
   }
 
   validateHeroSchema(hero: any) {
@@ -90,13 +108,14 @@ export class HeroServer {
 
   private initializeFirebase() {
     const config = {
-      apiKey: "AIzaSyD9Xtb2r7rMh9AusFqLSVzGDV87xML0GqA",
+      apiKey: firebaseAPI.api,
       authDomain: "hero-contacts.firebaseapp.com",
       databaseURL: "https://hero-contacts.firebaseio.com",
       projectId: "hero-contacts",
       storageBucket: "",
-      messagingSenderId: "728498800977"
+      messagingSenderId: firebaseAPI.senderId
     };
+    console.log('this workuing?', config);
     firebase.initializeApp(config);
   }
 
