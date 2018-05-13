@@ -8,8 +8,10 @@ import { HeroFormService } from './hero-form.service';
 })
 export class HeroFormComponent {
   form = {
-    first: null,
-    last: null,
+    name: {
+      first: null,
+      last: null
+    },
     email: null,
     age: null,
     faveFood: null
@@ -22,6 +24,8 @@ export class HeroFormComponent {
     console.log(this.form);
     this.formService.postHero(this.form).subscribe((response) => {
       console.log('API request: ', response);
+    }, (error) => {
+      console.log('API ERROR', error);
     });
   }
 }
