@@ -1,9 +1,11 @@
 import { createServer, Server } from 'http';
 import * as express from 'express';
-import * as firebase from 'firebase';
+// import * as firebase from 'firebase';
 import * as BodyParser from 'body-parser';
 import { celebrate, Joi, errors } from 'celebrate';
 import { firebaseAPI } from '../firebase.api';
+var firebase = require('firebase');
+var db = require('firebase/database');
 
 export class HeroServer {
   private app: express.Application;
@@ -70,7 +72,6 @@ export class HeroServer {
     this.app.post('/hero', celebrate({
       body: this.valid_hero_schema
     }), (req, res) => {
-      // const errors = this.validateHeroSchema(req.body);
       // replace '.' which are not allowed in an ID for Firebase
       const emailId = req.body.email.replace('.', '%2E');
       // Create a deep copy of the data object with JSON.parse(JSON.stringify(obj))
@@ -83,11 +84,7 @@ export class HeroServer {
         age: req.body.age,
         faveFood: req.body.faveFood
       }));
-      console.log('happening?');
-      firebase.database().ref('/').once('value', (data) => {
-        console.log('something', data.val());
-      });
-      // write the data to our database
+      // // write the data to our database
       firebase.database().ref('heroes/' + emailId).set(heroData)
       .then((success) => {
         console.log('promise + ', success);
@@ -102,21 +99,10 @@ export class HeroServer {
     this.app.use(errors());
   }
 
-  validateHeroSchema(hero: any) {
-    console.log(hero);
-  }
-
   private initializeFirebase() {
-    const config = {
-      apiKey: firebaseAPI.api,
-      authDomain: "hero-contacts.firebaseapp.com",
-      databaseURL: "https://hero-contacts.firebaseio.com",
-      projectId: "hero-contacts",
-      storageBucket: "",
-      messagingSenderId: firebaseAPI.senderId
-    };
-    console.log('this workuing?', config);
+    const config = firebaseAPI;
     firebase.initializeApp(config);
+    // firebase.database.enableLogging(true);
   }
 
   public getApp(): express.Application {
