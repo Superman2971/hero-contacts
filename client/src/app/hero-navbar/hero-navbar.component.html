@@ -1,0 +1,6 @@
+<div class="navbar">
+  <div class="tab" [class.selected]="i === selectedTab" *ngFor="let tab of tabs; let i = index;" (click)="tabSelect(i)">
+    <i class="material-icons">{{tab.icon}}</i>
+    <div [innerHtml]="tab.name"></div>
+  </div>
+</div>

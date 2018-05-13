@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Reset CSS */
+html, body, div, span {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+body {
+	line-height: 1;
+}
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}

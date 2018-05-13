@@ -1,0 +1,9 @@
+<div class="list">
+  <div class="card" *ngFor="let hero of heroes;">
+    <div>{{hero | json}}</div>
+  </div>
+  <div class="button" (click)="goToForm()">
+    <i class="material-icons">person_add</i>
+    <div>Add Hero</div>
+  </div>
+</div>

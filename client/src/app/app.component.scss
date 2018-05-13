@@ -1,0 +1,18 @@
+.root {
+  height: 100vh;
+  min-width: 100vw;
+
+  .pages {
+    display: flex;
+    flex-direction: row;
+    transition: transform 0.33s ease-in;
+
+    &.list {
+      transform: translateX(-100vw);
+    }
+
+    &.form {
+      transform: translateX(-200vw);
+    }
+  }
+}
