@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { HeroFormService } from './hero-form.service';
 
 @Component({
@@ -6,19 +6,26 @@ import { HeroFormService } from './hero-form.service';
   templateUrl: './hero-form.component.html',
   styleUrls: ['./hero-form.component.scss']
 })
-export class HeroFormComponent {
-  form = {
-    name: {
-      first: null,
-      last: null
-    },
-    email: null,
-    age: null,
-    faveFood: null
-  };
+export class HeroFormComponent implements OnChanges {
+  @Input() form;
   disbaled = true;
 
   constructor(private formService: HeroFormService) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    const form: SimpleChange = changes.form;
+    if (form && !form.currentValue) {
+      this.form = {
+        name: {
+          first: null,
+          last: null
+        },
+        email: null,
+        age: null,
+        faveFood: null
+      };
+    }
+  }
 
   submit() {
     console.log(this.form);

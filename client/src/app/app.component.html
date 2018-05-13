@@ -3,6 +3,6 @@
   <div class="pages" [class.list]="page === 1" [class.form]="page === 2">
     <hero-overview></hero-overview>
     <hero-list (event)="goToForm($event)"></hero-list>
-    <hero-form></hero-form>
+    <hero-form [form]="hero"></hero-form>
   </div>
 </div>

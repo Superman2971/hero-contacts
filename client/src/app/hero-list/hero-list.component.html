@@ -1,5 +1,6 @@
 <div class="list">
   <div class="card" *ngFor="let hero of heroes;">
+    <i class="material-icons" (click)="goToForm(hero)">edit</i>
     <div>{{hero | json}}</div>
   </div>
   <div class="button" (click)="goToForm()">

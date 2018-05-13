@@ -8,6 +8,7 @@ import { NavigationService } from './hero-navbar/navigation.service';
 })
 export class AppComponent {
   page = 1;
+  hero;
   _navSubscription;
 
   constructor(private navService: NavigationService) {
@@ -16,8 +17,8 @@ export class AppComponent {
     });
   }
 
-  goToForm(evt) {
-    console.log(evt);
+  goToForm(hero) {
+    this.hero = hero;
     this.navService.changePage(2);
   }
 }
