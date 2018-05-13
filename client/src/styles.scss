@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import './variables.scss';
 /* Reset CSS */
 html, body, div, span {
 	margin: 0;
@@ -10,7 +10,8 @@ html, body, div, span {
 	vertical-align: baseline;
 }
 body {
-	line-height: 1;
+  background-color: $primary-light;
+  line-height: 1;
 }
 /* Global Styles */
 * {

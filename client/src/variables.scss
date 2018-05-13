@@ -3,7 +3,36 @@ $primary: #75DDDD;
 $primary-light: #84C7D0;
 $secondary: #9368B7;
 $secondary-light: #9297C4;
-$tertiary: #AA3E98;
+$tertiary: #CC0000;
 // some box shadows
 $box-shadow-level-1: 0 1px 3px rgba(10, 44, 76, 0.12), 0 1px 2px rgba(10, 44, 76, 0.12);
 $box-shadow-level-2: 0 3px 6px rgba(10, 44, 76, 0.12), 0 3px 6px rgba(10, 44, 76, 0.12);
+// reused button style
+@mixin button-style {
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid $secondary-light;
+  border-radius: 6px;
+  box-shadow: $box-shadow-level-1;
+  color: $primary-light;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  font-weight: 400;
+  justify-content: center;
+  outline: none;
+  padding: 8px 16px;
+  transition: 0.25s ease-in-out;
+  white-space: nowrap;
+
+  &:hover {
+    border: 1px solid $secondary;
+    box-shadow: $box-shadow-level-2;
+    color: $primary;
+  }
+
+  i {
+    margin: 0 16px 0 0;
+  }
+}

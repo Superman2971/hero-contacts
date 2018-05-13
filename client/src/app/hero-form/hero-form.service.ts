@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+// TEMP
+import { HeroListService } from '../hero-list/hero-list.service';
 
 @Injectable()
 export class HeroFormService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private listService: HeroListService) {}
 
   private setHeaders(params?): HttpHeaders {
     const headersConfig = {
@@ -33,6 +35,12 @@ export class HeroFormService {
       })
     };
     console.log(hero, headers, httpOptions);
-    return this.http.post(`${environment.api_url}/hero`, hero, httpOptions);
+    // return this.http.post(`${environment.api_url}/hero`, hero, httpOptions);
+    ///////////////////////////////////////////////////////////////////////
+    this.listService.fakeDatabase.push(hero);
+    return Observable.create((observer) => {
+      observer.next({fake: 'success'});
+      observer.complete();
+    });
   }
 }

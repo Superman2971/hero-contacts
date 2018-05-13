@@ -8,6 +8,7 @@ import { HeroNavbarComponent } from './hero-navbar/hero-navbar.component';
 import { HeroOverviewComponent } from './hero-overview/hero-overview.component';
 import { HeroListComponent } from './hero-list/hero-list.component';
 import { HeroFormComponent } from './hero-form/hero-form.component';
+import { HeroInputComponent } from './hero-form/hero-input/hero-input.component';
 // Services
 import { NavigationService } from './hero-navbar/navigation.service';
 import { HeroListService } from './hero-list/hero-list.service';
@@ -24,7 +25,8 @@ import { HeroFormService } from './hero-form/hero-form.service';
     HeroNavbarComponent,
     HeroOverviewComponent,
     HeroListComponent,
-    HeroFormComponent
+    HeroFormComponent,
+    HeroInputComponent
   ],
   providers: [
     NavigationService,

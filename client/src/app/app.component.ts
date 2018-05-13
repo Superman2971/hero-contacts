@@ -7,7 +7,7 @@ import { NavigationService } from './hero-navbar/navigation.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  page = 1;
+  page = 0;
   hero;
   _navSubscription;
 

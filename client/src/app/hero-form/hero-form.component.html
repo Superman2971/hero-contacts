@@ -1,8 +1,41 @@
 <div class="hero-form">
-  <input type="text" placeholder="first name" [(ngModel)]="form.name.first"/>
-  <input type="text" placeholder="last name" [(ngModel)]="form.name.last"/>
-  <input type="text" placeholder="email" [(ngModel)]="form.email"/>
-  <input type="text" placeholder="age" [(ngModel)]="form.age"/>
-  <input type="text" placeholder="favorite food" [(ngModel)]="form.faveFood"/>
-  <button (click)="submit()">SUBMIT</button>
+  <div class="form-container">
+    <hero-input
+      placeholder="First Name"
+      [init]="form.name.first"
+      [dirty]="dirtyForm"
+      (value)="form.name.first=$event"
+    ></hero-input>
+    <hero-input
+      placeholder="Last Name"
+      [init]="form.name.last"
+      [dirty]="dirtyForm"
+      (value)="form.name.last=$event"
+    ></hero-input>
+    <hero-input
+      placeholder="Email"
+      [init]="form.email"
+      [dirty]="dirtyForm"
+      [email]="true"
+      (value)="form.email=$event"
+    ></hero-input>
+    <hero-input
+      placeholder="Age"
+      [init]="form.age"
+      [dirty]="dirtyForm"
+      [numberType]="true"
+      [minlength]="1"
+      [maxlength]="3"
+      (value)="form.age=$event"
+    ></hero-input>
+    <hero-input
+      placeholder="Favorite Food"
+      [init]="form.faveFood"
+      [dirty]="dirtyForm"
+      [optional]="true"
+      description="Any food is acceptible but there is only 1 correct answer"
+      (value)="form.faveFood=$event"
+    ></hero-input>
+  </div>
+  <div class="button" (click)="submit()">SUBMIT HERO</div>
 </div>

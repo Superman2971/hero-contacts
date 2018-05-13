@@ -8,31 +8,46 @@ import { HeroFormService } from './hero-form.service';
 })
 export class HeroFormComponent implements OnChanges {
   @Input() form;
-  disbaled = true;
+  dirtyForm = false;
+  emptyForm = {
+    name: {
+      first: null,
+      last: null
+    },
+    email: null,
+    age: null,
+    faveFood: null
+  };
 
   constructor(private formService: HeroFormService) {}
 
   ngOnChanges(changes: SimpleChanges) {
+    this.dirtyForm = false; // reset form when the Input changes
     const form: SimpleChange = changes.form;
     if (form && !form.currentValue) {
-      this.form = {
-        name: {
-          first: null,
-          last: null
-        },
-        email: null,
-        age: null,
-        faveFood: null
-      };
+      this.form = this.emptyForm;
+    }
+  }
+
+  formCompleteCheck(form) {
+    if (form.name && form.name.first && form.name.last && form.email && form.age && form.faveFood) {
+      return true;
+    } else {
+      return false;
     }
   }
 
   submit() {
+    this.dirtyForm = true;
     console.log(this.form);
-    this.formService.postHero(this.form).subscribe((response) => {
-      console.log('API request: ', response);
-    }, (error) => {
-      console.log('API ERROR', error);
-    });
+    if (this.formCompleteCheck(this.form)) {
+      this.formService.postHero(this.form).subscribe((response) => {
+        this.dirtyForm = false;
+        this.form = this.emptyForm;
+        console.log('API request: ', response);
+      }, (error) => {
+        console.log('API ERROR', error);
+      });
+    }
   }
 }

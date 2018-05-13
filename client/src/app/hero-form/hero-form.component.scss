@@ -1,5 +1,29 @@
+@import '../../variables.scss';
+
 .hero-form {
   max-width: 100vw;
   min-width: 100vw;
+  padding: 24px;
   position: relative;
+
+  .form-container {
+    border-radius: 2px;
+    background-color: #fff;
+    box-shadow: $box-shadow-level-1;
+    color: $secondary;
+    display: grid;
+    grid-gap: 24px;
+    grid-template-columns: 1fr 1fr;
+    padding: 24px;
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .button {
+    @include button-style;
+    margin: 24px 0 0;
+    padding: 16px;
+  }
 }

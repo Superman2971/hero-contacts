@@ -3,6 +3,9 @@
 .navbar {
   align-items: center;
   background-color: $primary-light;
+  border-left: 1px solid $primary-light;
+  border-right: 1px solid $primary-light;
+  border-top: 1px solid $primary-light;
   display: grid;
   grid-gap: 2px;
   grid-template-columns: 1fr 1fr 1fr;
