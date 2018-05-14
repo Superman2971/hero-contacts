@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { HeroFormService } from './hero-form.service';
+import { HeroListService } from '../hero-list/hero-list.service';
 
 @Component({
   selector: 'hero-form',
@@ -22,7 +23,10 @@ export class HeroFormComponent implements OnChanges {
   dragResults: string = 'Drop Zone';
   worthy: boolean = false;
 
-  constructor(private formService: HeroFormService) {}
+  constructor(
+    private formService: HeroFormService,
+    private listService: HeroListService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     this.dirtyForm = false; // reset form when the Input changes
@@ -82,6 +86,7 @@ export class HeroFormComponent implements OnChanges {
       this.formService.postHero(this.form).subscribe((response) => {
         this.dirtyForm = false;
         this.form = this.emptyForm;
+        this.listService.listChange();
         console.log('API request: ', response);
       }, (error) => {
         console.log('API ERROR', error);

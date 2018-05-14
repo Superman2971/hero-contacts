@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class HeroListService {
@@ -43,4 +44,10 @@ export class HeroListService {
     email: 'tony@starkenterprise.com',
     faveFood: 'BK Whopper'
   }];
+
+  public listChanges: Subject<any> = new Subject();
+
+  public listChange() {
+    this.listChanges.next(this.fakeDatabase);
+  }
 }

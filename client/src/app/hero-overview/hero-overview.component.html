@@ -6,19 +6,14 @@
     <div class="button" (click)="goToPage(2)">ADD HERO CONTACT</div>
   </div>
   <div>
-    <div>Overview of our Superhero Friends</div>
-    <div>Total hero contacts available: <span>??</span></div>
-    <div>
-      <div>TITLE GRAPH</div>
-      <div>INSERT GRAPH</div>
-    </div>
-    <div>
-      <div>TITLE GRAPH</div>
-      <div>INSERT GRAPH</div>
-    </div>
-    <div>
-      <div>TITLE GRAPH</div>
-      <div>INSERT GRAPH</div>
-    </div>
+    <div class="title">Heroic Analytics</div>
+    <fusioncharts
+      [id]="chartData.id"
+      [width]="chartData.width"
+      [height]="chartData.height"
+      [type]="chartData.type"
+      [dataFormat]="chartData.dataFormat"
+      [dataSource]="chartData.dataSource"
+    ></fusioncharts>
   </div>
 </div>

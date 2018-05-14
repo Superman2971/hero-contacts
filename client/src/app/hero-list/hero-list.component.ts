@@ -21,5 +21,6 @@ export class HeroListComponent {
   deleteHero(index) {
     this.listServive.fakeDatabase.splice(index, 1);
     this.heroes = this.listServive.fakeDatabase;
+    this.listServive.listChange();
   }
 }
