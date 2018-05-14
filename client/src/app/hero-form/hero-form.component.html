@@ -37,5 +37,29 @@
       (value)="form.faveFood=$event"
     ></hero-input>
   </div>
+  <div class="form-container drop-area">
+    <div *ngIf="!worthy">
+      <div>Are you worthy? Move Mjolnir to prove you are worthy of submitting a hero!</div>
+      <i *ngIf="dirtyForm" class="material-icons invalid">error</i>
+    </div>
+    <div *ngIf="!worthy" class="drop-container">
+      <div class="icons">
+        <img id="Mjolnir" src="/assets/thor.png" alt="Mjolnir Thor's Hammer" draggable="true" (dragstart)="drag($event)" (dragend)="dragEnd($event)"/>
+        <img id="Iron Man" src="/assets/ironman.png" alt="Iron Man" draggable="true" (dragstart)="drag($event)" (dragend)="dragEnd($event)"/>
+        <img id="Captain America" src="/assets/captain.png" alt="Captain America" draggable="true" (dragstart)="drag($event)" (dragend)="dragEnd($event)"/>
+        <img id="The Hulk" src="/assets/hulk.png" alt="The Hulk" draggable="true" (dragstart)="drag($event)" (dragend)="dragEnd($event)"/>
+      </div>
+      <div class="dropzone" [class.hovering]="hovering"
+        (dragover)="overDrop($event)"
+        (dragleave)="leaveDrop($event)"
+        (drop)="droppedIcon($event)"
+        [innerHtml]="dragResults"
+      ></div>
+    </div>
+    <div *ngIf="worthy">
+      <div>Congratulations, you are indeed worthy!</div>
+      <i class="material-icons">check</i>
+    </div>
+  </div>
   <div class="button" (click)="submit()">SUBMIT HERO</div>
 </div>

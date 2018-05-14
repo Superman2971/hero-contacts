@@ -21,4 +21,8 @@ export class AppComponent {
     this.hero = hero;
     this.navService.changePage(2);
   }
+
+  goToPage(page) {
+    this.navService.changePage(page);
+  }
 }

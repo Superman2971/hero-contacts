@@ -18,6 +18,9 @@ export class HeroFormComponent implements OnChanges {
     age: null,
     faveFood: null
   };
+  hovering: boolean = false;
+  dragResults: string = 'Drop Zone';
+  worthy: boolean = false;
 
   constructor(private formService: HeroFormService) {}
 
@@ -29,8 +32,43 @@ export class HeroFormComponent implements OnChanges {
     }
   }
 
+  drag(ev) {
+    ev.dataTransfer.setData('text', ev.target.id);
+  }
+
+  overDrop(ev) {
+    ev.preventDefault(); // required: You must cancel the default action for ondragenter and ondragover in order for ondrop to fire
+    this.hovering = true;
+  }
+
+  dragEnd(ev) {
+    this.hovering = false; // added drag end to help with the hovering effect
+  }
+
+  leaveDrop(ev) {
+    this.hovering = false; // added drag leave to help with the hovering effect
+  }
+
+  droppedIcon(ev) {
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData('text');
+    this.hovering = false;
+    // Check what the drag result was
+    if (data === 'Mjolnir') {
+      this.worthy = true;
+    } else if (data === 'Iron Man') {
+      this.dragResults = 'You have excellent taste!';
+    } else if (data === 'Captain America') {
+      this.dragResults = 'Are you serious!? He is the worst!';
+    } else if (data === 'The Hulk') {
+      this.dragResults = 'The Green Machine! But incorrect.';
+    } else {
+      this.dragResults = 'What was that?!';
+    }
+  }
+
   formCompleteCheck(form) {
-    if (form.name && form.name.first && form.name.last && form.email && form.age && form.faveFood) {
+    if (form.name && form.name.first && form.name.last && form.email && form.age && form.faveFood && this.worthy) {
       return true;
     } else {
       return false;

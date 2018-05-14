@@ -15,9 +15,26 @@
     grid-gap: 24px;
     grid-template-columns: 1fr 1fr;
     padding: 24px;
+    position: relative;
 
     @media (max-width: 600px) {
       grid-template-columns: 1fr;
+    }
+
+    &.drop-area {
+      grid-template-columns: 1fr;
+      margin: 24px 0 0;
+
+      i {
+        padding: 24px;
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        &.invalid {
+          color: $tertiary;
+        }
+      }
     }
   }
 
@@ -25,5 +42,51 @@
     @include button-style;
     margin: 24px 0 0;
     padding: 16px;
+  }
+
+  .drop-container {
+    display: grid;
+    grid-gap: 24px;
+    grid-template-columns: 1fr 1fr;
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+
+    .icons {
+      align-items: center;
+      display: grid;
+      grid-gap: 16px;
+      grid-template-columns: 100px 100px;
+      justify-content: center;
+    }
+
+    .dropzone {
+      align-items: center;
+      background-color: $secondary-light;
+      border: 1px dashed $secondary;
+      display: flex;
+      font-size: 32px;
+      height: 100%;
+      justify-content: center;
+      min-height: 200px;
+      width: 100%;
+
+      &.hovering {
+        animation: hovering 1s ease-in-out infinite;
+      }
+    }
+
+    @keyframes hovering {
+      0% {
+        background-color: $secondary-light;
+      }
+      50% {
+        background-color: #fff;
+      }
+      100% {
+        background-color: $secondary-light;
+      }
+    }
   }
 }

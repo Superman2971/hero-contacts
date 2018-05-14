@@ -1,7 +1,7 @@
 <div class="root">
   <hero-navbar></hero-navbar>
   <div class="pages" [class.list]="page === 1" [class.form]="page === 2">
-    <hero-overview></hero-overview>
+    <hero-overview (event)="goToPage($event)"></hero-overview>
     <hero-list (event)="goToForm($event)"></hero-list>
     <hero-form [form]="hero"></hero-form>
   </div>
