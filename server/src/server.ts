@@ -4,8 +4,10 @@ import * as express from 'express';
 import * as BodyParser from 'body-parser';
 import { celebrate, Joi, errors } from 'celebrate';
 import { firebaseAPI } from '../firebase.api';
-var firebase = require('firebase');
+// var firebase = require('firebase');
 var db = require('firebase/database');
+var firebase = require('firebase-admin');
+var serviceAccount = require('../hero-contacts-firebase-adminsdk-nhml8-f623286974.json');
 
 export class HeroServer {
   private app: express.Application;
@@ -100,9 +102,22 @@ export class HeroServer {
   }
 
   private initializeFirebase() {
-    const config = firebaseAPI;
-    firebase.initializeApp(config);
-    // firebase.database.enableLogging(true);
+    // const config = {
+    //   apiKey: firebaseAPI.apiKey,
+    //   authDomain: firebaseAPI.authDomain,
+    //   credential: firebase.credential.cert(serviceAccount),
+    //   databaseURL: firebaseAPI.databaseURL,
+    //   projectId: firebaseAPI.projectId,
+    //   storageBucket: firebaseAPI.storageBucket,
+    //   messagingSenderId: firebaseAPI.messagingSenderId
+    // }
+    // firebase.initializeApp(config);
+    // Need admin certification, has not been accepting my token
+    firebase.initializeApp({
+      credential: firebase.credential.cert(serviceAccount),
+      databaseURL: 'https://hero-contacts.firebaseio.com'
+    });
+    firebase.database.enableLogging(true);
   }
 
   public getApp(): express.Application {
