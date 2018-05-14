@@ -20,11 +20,7 @@ export class HeroFormService {
     return headerOptions;
   }
 
-  public test(): Observable<any> {
-    return this.http.get(`${environment.api_url}/test`);
-  }
-
-  public postHero(hero): Observable<any> {
+  public postHero(hero): Observable<any> { // can use this for both new and edit because unique emails are used as the key for data
     const headers = {
       headers: this.setHeaders()
     };
@@ -34,13 +30,7 @@ export class HeroFormService {
         'Accept': 'application/json'
       })
     };
-    console.log(hero, headers, httpOptions);
-    // return this.http.post(`${environment.api_url}/hero`, hero, httpOptions);
-    ///////////////////////////////////////////////////////////////////////
-    this.listService.fakeDatabase.push(hero);
-    return Observable.create((observer) => {
-      observer.next({fake: 'success'});
-      observer.complete();
-    });
+    console.log('POST', hero);
+    return this.http.post(`${environment.api_url}/hero`, hero, httpOptions);
   }
 }

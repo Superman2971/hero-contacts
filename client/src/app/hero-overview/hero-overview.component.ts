@@ -29,7 +29,6 @@ export class HeroOverviewComponent implements OnDestroy {
     this._heroListChangeSubscription = this.listService.listChanges.subscribe((list) => {
       this.updateChart(list);
     });
-    this.updateChart(this.listService.fakeDatabase);
   }
 
   updateChart(heroes) {

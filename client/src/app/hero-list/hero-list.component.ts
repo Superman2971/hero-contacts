@@ -11,7 +11,18 @@ export class HeroListComponent {
   heroes: Array<any> = [];
 
   constructor(private listServive: HeroListService) {
-    this.heroes = listServive.fakeDatabase;
+    let heroListAsArray
+    listServive.getDatabase().subscribe((res) => {
+      if (res) {
+        heroListAsArray = Object.keys(res).map((prop) => res[prop]);
+      } else {
+        heroListAsArray = [];
+      }
+      console.log('get database response:', res, ' then changed to: ', heroListAsArray);
+      this.heroes = heroListAsArray;
+      this.listServive.database = heroListAsArray;
+      this.listServive.listChange();
+    });
   }
 
   goToForm(hero?) {
@@ -19,8 +30,8 @@ export class HeroListComponent {
   }
 
   deleteHero(index) {
-    this.listServive.fakeDatabase.splice(index, 1);
-    this.heroes = this.listServive.fakeDatabase;
+    this.listServive.database.splice(index, 1);
+    this.heroes = this.listServive.database;
     this.listServive.listChange();
   }
 }

@@ -2,6 +2,8 @@
 /server/node_modules
 /server/dist
 /server/npm-debug.log
+/server/hero-contacts-firebase-adminsdk-nhml8-f623286974.json
+/server/firebase.api.ts
 
 ## client
 /client/dist

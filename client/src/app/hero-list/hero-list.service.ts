@@ -1,53 +1,39 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class HeroListService {
-  public fakeDatabase = [{
-    name: {
-      first: 'Clark',
-      last: 'Kent'
-    },
-    age: 43,
-    email: 'kentfarms@yahoo.com',
-    faveFood: 'Salad, no dressing'
-  }, {
-    name: {
-      first: 'Bruce',
-      last: 'Wayne'
-    },
-    age: 46,
-    email: 'masterbruce@gmail.com',
-    faveFood: 'Protein Shakes'
-  }, {
-    name: {
-      first: 'Bruce',
-      last: 'Banner'
-    },
-    age: 34,
-    email: 'greenmachine@hotmail.com',
-    faveFood: 'french fries'
-  }, {
-    name: {
-      first: 'Peter',
-      last: 'Parker'
-    },
-    age: 24,
-    email: 'parkerphotography@dailybugle.com',
-    faveFood: 'pizza'
-  }, {
-    name: {
-      first: 'Tony',
-      last: 'Stark'
-    },
-    age: 37,
-    email: 'tony@starkenterprise.com',
-    faveFood: 'BK Whopper'
-  }];
-
+  public database: Array<any> = [];
   public listChanges: Subject<any> = new Subject();
 
+  constructor(private http: HttpClient) {}
+
   public listChange() {
-    this.listChanges.next(this.fakeDatabase);
+    this.listChanges.next(this.database);
+  }
+
+  private setHeaders(params?): HttpHeaders {
+    const headersConfig = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'my-auth-token'
+    };
+    const headerOptions = new HttpHeaders(headersConfig);
+    return headerOptions;
+  }
+
+  public getDatabase(): Observable<any> {
+    const headers = {
+      headers: this.setHeaders()
+    };
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Accept': 'application/json'
+      })
+    };
+    return this.http.get(`${environment.api_url}/heroes`);
   }
 }

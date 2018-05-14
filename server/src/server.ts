@@ -52,7 +52,7 @@ export class HeroServer {
   private changeApiAccess() {
     // Add headers
     this.app.use(function (req, res, next) {
-      let allowedOrigins = ['http://localhost:4200'];
+      let allowedOrigins = ['http://localhost:4200', 'http://hero-contacts.bitballoon.com'];
       let origin: any = req.headers.origin;
       if (allowedOrigins.indexOf(origin) > -1) {
         res.setHeader('Access-Control-Allow-Origin', origin);
@@ -66,11 +66,16 @@ export class HeroServer {
 
   private defineRoutes() {
     console.log('Defining Routes');
-    // basic test route
-    this.app.get('/test', (req, res) => {
-      res.send({test: 'success'});
+    // GET for heroes database
+    this.app.get('/heroes', (req, res) => {
+      let userDbInfo: any;
+      firebase.database().ref('heroes').once('value', (data) => {
+        userDbInfo = data.val();
+        console.log('GET heroes', userDbInfo);
+        res.send(userDbInfo);
+      });
     });
-    // initial POST route for adding new Hero
+    // POST route for adding new Hero
     this.app.post('/hero', celebrate({
       body: this.valid_hero_schema
     }), (req, res) => {
@@ -79,14 +84,14 @@ export class HeroServer {
       // Create a deep copy of the data object with JSON.parse(JSON.stringify(obj))
       const heroData = JSON.parse(JSON.stringify({
         name: {
-          first: req.body.first,
-          last: req.body.last
+          first: req.body.name.first,
+          last: req.body.name.last
         },
         email: req.body.email,
         age: req.body.age,
         faveFood: req.body.faveFood
       }));
-      // // write the data to our database
+      // write the data to our database
       firebase.database().ref('heroes/' + emailId).set(heroData)
       .then((success) => {
         console.log('promise + ', success);
@@ -112,7 +117,7 @@ export class HeroServer {
     //   messagingSenderId: firebaseAPI.messagingSenderId
     // }
     // firebase.initializeApp(config);
-    // Need admin certification, has not been accepting my token
+    // Needed to switch to Admin SDK certification, Firebase would not accept my token
     firebase.initializeApp({
       credential: firebase.credential.cert(serviceAccount),
       databaseURL: 'https://hero-contacts.firebaseio.com'

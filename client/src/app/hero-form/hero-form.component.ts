@@ -10,15 +10,6 @@ import { HeroListService } from '../hero-list/hero-list.service';
 export class HeroFormComponent implements OnChanges {
   @Input() form;
   dirtyForm = false;
-  emptyForm = {
-    name: {
-      first: null,
-      last: null
-    },
-    email: null,
-    age: null,
-    faveFood: null
-  };
   hovering: boolean = false;
   dragResults: string = 'Drop Zone';
   worthy: boolean = false;
@@ -32,7 +23,15 @@ export class HeroFormComponent implements OnChanges {
     this.dirtyForm = false; // reset form when the Input changes
     const form: SimpleChange = changes.form;
     if (form && !form.currentValue) {
-      this.form = this.emptyForm;
+      this.form = {
+        name: {
+          first: null,
+          last: null
+        },
+        email: null,
+        age: null,
+        faveFood: null
+      };
     }
   }
 
@@ -85,11 +84,21 @@ export class HeroFormComponent implements OnChanges {
     if (this.formCompleteCheck(this.form)) {
       this.formService.postHero(this.form).subscribe((response) => {
         this.dirtyForm = false;
-        this.form = this.emptyForm;
+        this.form = {
+          name: {
+            first: null,
+            last: null
+          },
+          email: null,
+          age: null,
+          faveFood: null
+        };
+        this.worthy = false;
         this.listService.listChange();
         console.log('API request: ', response);
       }, (error) => {
         console.log('API ERROR', error);
+        this.worthy = false;
       });
     }
   }
