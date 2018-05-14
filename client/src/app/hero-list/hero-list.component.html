@@ -1,11 +1,11 @@
 <div class="list">
-  <div class="card" *ngFor="let hero of heroes; let i = index">
+  <div class="card" *ngFor="let hero of heroes">
     <div class="header">
       <div class="name">
         <span [innerHtml]="hero.name.first"></span>&nbsp;<span [innerHtml]="hero.name.last"></span>
       </div>
       <i class="material-icons" (click)="goToForm(hero)">edit</i>
-      <i class="material-icons" (click)="deleteHero(i)">delete</i>
+      <i class="material-icons" (click)="deleteHero(hero.email)">delete</i>
     </div>
     <div class="body">
       <a [href]="'mailto:' + hero.email" [innerHtml]="hero.email"></a>

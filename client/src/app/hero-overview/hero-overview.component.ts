@@ -40,7 +40,6 @@ export class HeroOverviewComponent implements OnDestroy {
       });
     }
     this.chartData.dataSource.data = newData;
-    console.log('chart', this.chartData);
   }
 
   goToPage(page) {

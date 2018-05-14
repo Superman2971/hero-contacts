@@ -80,7 +80,6 @@ export class HeroFormComponent implements OnChanges {
 
   submit() {
     this.dirtyForm = true;
-    console.log(this.form);
     if (this.formCompleteCheck(this.form)) {
       this.formService.postHero(this.form).subscribe((response) => {
         this.dirtyForm = false;
@@ -94,10 +93,12 @@ export class HeroFormComponent implements OnChanges {
           faveFood: null
         };
         this.worthy = false;
-        this.listService.listChange();
-        console.log('API request: ', response);
+        if (response.status === 'success') {
+          const responseDataAsArray = Object.keys(response.data).map((prop) => response.data[prop]);
+          this.listService.database = responseDataAsArray;
+          this.listService.listChange();
+        }
       }, (error) => {
-        console.log('API ERROR', error);
         this.worthy = false;
       });
     }

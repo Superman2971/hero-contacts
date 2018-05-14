@@ -1,10 +1,7 @@
 import { createServer, Server } from 'http';
 import * as express from 'express';
-// import * as firebase from 'firebase';
 import * as BodyParser from 'body-parser';
 import { celebrate, Joi, errors } from 'celebrate';
-import { firebaseAPI } from '../firebase.api';
-// var firebase = require('firebase');
 var db = require('firebase/database');
 var firebase = require('firebase-admin');
 var serviceAccount = require('../hero-contacts-firebase-adminsdk-nhml8-f623286974.json');
@@ -57,7 +54,7 @@ export class HeroServer {
       if (allowedOrigins.indexOf(origin) > -1) {
         res.setHeader('Access-Control-Allow-Origin', origin);
       }
-      res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+      res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
       res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
       res.header('Access-Control-Allow-Credentials', 'true');
       return next();
@@ -94,30 +91,44 @@ export class HeroServer {
       // write the data to our database
       firebase.database().ref('heroes/' + emailId).set(heroData)
       .then((success) => {
-        console.log('promise + ', success);
-        // let user know it worked out
-        res.send({status: 'success', request: req.body});
+        // upon success grab the updated DB for the front-end
+        firebase.database().ref('heroes').once('value', (data) => {
+          let userDbInfo = data.val();
+          // respond to front-end with the updated DB
+          res.send({status: 'success', data: userDbInfo});
+        });
       }).catch((failure) => {
         console.log('promise - ', failure);
         // let user know it worked out
-        res.send({status: 'failure', request: req.body});
+        res.send({status: 'failure', data: req.body});
       });
     });
+    // DELETE a hero from the DB
+    this.app.delete('/hero/:email', (req, res) => {
+      console.log('DELETE request: ', req);
+      // replace '.' which are not allowed in an ID for Firebase
+      const emailId = req.params.email.replace('.', '%2E');
+      // write the data to our database
+      firebase.database().ref('heroes/' + emailId).remove()
+      .then((success) => {
+        // upon success grab the updated DB for the front-end
+        firebase.database().ref('heroes').once('value', (data) => {
+          let userDbInfo = data.val();
+          // respond to front-end with the updated DB
+          res.send({status: 'success', data: userDbInfo});
+        });
+      }).catch((failure) => {
+        console.log('promise - ', failure);
+        // let user know it worked out
+        res.send({status: 'failure', data: req.body});
+      });
+    });
+    // include errors from Joi
     this.app.use(errors());
   }
 
   private initializeFirebase() {
-    // const config = {
-    //   apiKey: firebaseAPI.apiKey,
-    //   authDomain: firebaseAPI.authDomain,
-    //   credential: firebase.credential.cert(serviceAccount),
-    //   databaseURL: firebaseAPI.databaseURL,
-    //   projectId: firebaseAPI.projectId,
-    //   storageBucket: firebaseAPI.storageBucket,
-    //   messagingSenderId: firebaseAPI.messagingSenderId
-    // }
-    // firebase.initializeApp(config);
-    // Needed to switch to Admin SDK certification, Firebase would not accept my token
+    // Needed to switch from firebase to Admin SDK certification, Firebase would not accept my token
     firebase.initializeApp({
       credential: firebase.credential.cert(serviceAccount),
       databaseURL: 'https://hero-contacts.firebaseio.com'

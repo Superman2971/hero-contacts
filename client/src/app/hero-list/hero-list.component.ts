@@ -9,19 +9,14 @@ import { HeroListService } from './hero-list.service';
 export class HeroListComponent {
   @Output() event: EventEmitter<any> = new EventEmitter();
   heroes: Array<any> = [];
+  _heroListChangeSubscription;
 
-  constructor(private listServive: HeroListService) {
-    let heroListAsArray
-    listServive.getDatabase().subscribe((res) => {
-      if (res) {
-        heroListAsArray = Object.keys(res).map((prop) => res[prop]);
-      } else {
-        heroListAsArray = [];
-      }
-      console.log('get database response:', res, ' then changed to: ', heroListAsArray);
-      this.heroes = heroListAsArray;
-      this.listServive.database = heroListAsArray;
-      this.listServive.listChange();
+  constructor(private listService: HeroListService) {
+    listService.getDatabase().subscribe((res) => {
+      this.modifyAndUpdateHeroes(res);
+    });
+    this._heroListChangeSubscription = this.listService.listChanges.subscribe((list) => {
+      this.heroes = list;
     });
   }
 
@@ -29,9 +24,23 @@ export class HeroListComponent {
     this.event.emit(hero);
   }
 
-  deleteHero(index) {
-    this.listServive.database.splice(index, 1);
-    this.heroes = this.listServive.database;
-    this.listServive.listChange();
+  deleteHero(email) {
+    this.listService.deleteHero(email).subscribe((response) => {
+      if (response && response.status === 'success') {
+        this.modifyAndUpdateHeroes(response.data);
+      }
+    });
+  }
+
+  modifyAndUpdateHeroes(heroes) {
+    let heroListAsArray;
+    if (heroes) {
+      heroListAsArray = Object.keys(heroes).map((prop) => heroes[prop]);
+    } else {
+      heroListAsArray = [];
+    }
+    this.heroes = heroListAsArray;
+    this.listService.database = heroListAsArray;
+    this.listService.listChange();
   }
 }

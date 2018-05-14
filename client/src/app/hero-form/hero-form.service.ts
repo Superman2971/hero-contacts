@@ -30,7 +30,6 @@ export class HeroFormService {
         'Accept': 'application/json'
       })
     };
-    console.log('POST', hero);
     return this.http.post(`${environment.api_url}/hero`, hero, httpOptions);
   }
 }
