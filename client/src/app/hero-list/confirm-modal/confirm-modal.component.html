@@ -1,0 +1,9 @@
+<div class="modal-overlay" [class.active]="active" (click)="close()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <div class="header" [innerHtml]="question"></div>
+    <div class="flex-row">
+      <div class="button" (click)="submit(true)">YES</div>
+      <div class="button no" (click)="submit(false)">NO</div>
+    </div>
+  </div>
+</div>

@@ -9,6 +9,8 @@ import { HeroListService } from './hero-list.service';
 export class HeroListComponent {
   @Output() event: EventEmitter<any> = new EventEmitter();
   heroes: Array<any> = [];
+  openModal: boolean = false;
+  selectedHero: string;
   _heroListChangeSubscription;
 
   constructor(private listService: HeroListService) {
@@ -24,12 +26,19 @@ export class HeroListComponent {
     this.event.emit(hero);
   }
 
-  deleteHero(email) {
-    this.listService.deleteHero(email).subscribe((response) => {
-      if (response && response.status === 'success') {
-        this.modifyAndUpdateHeroes(response.data);
-      }
-    });
+  deleteRequest(email) {
+    this.openModal = true;
+    this.selectedHero = email;
+  }
+
+  deleteHero(modalResponse) {
+    if (modalResponse && this.selectedHero) {
+      this.listService.deleteHero(this.selectedHero).subscribe((response) => {
+        if (response && response.status === 'success') {
+          this.modifyAndUpdateHeroes(response.data);
+        }
+      });
+    }
   }
 
   modifyAndUpdateHeroes(heroes) {

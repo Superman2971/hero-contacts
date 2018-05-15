@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { HeroFormService } from './hero-form.service';
 import { HeroListService } from '../hero-list/hero-list.service';
+import { NavigationService } from '../hero-navbar/navigation.service';
 
 @Component({
   selector: 'hero-form',
@@ -17,7 +18,8 @@ export class HeroFormComponent implements OnChanges {
 
   constructor(
     private formService: HeroFormService,
-    private listService: HeroListService
+    private listService: HeroListService,
+    private navService: NavigationService
   ) {
     // Simple method using navigator to detect if we are on mobile/tablet device
     if ( navigator.userAgent.match(/Android/i)
@@ -114,6 +116,7 @@ export class HeroFormComponent implements OnChanges {
           const responseDataAsArray = Object.keys(response.data).map((prop) => response.data[prop]);
           this.listService.database = responseDataAsArray;
           this.listService.listChange();
+          this.navService.changePage(1);
         }
       }, (error) => {
         this.worthy = false;

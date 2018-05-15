@@ -15,6 +15,7 @@ import { HeroOverviewComponent } from './hero-overview/hero-overview.component';
 import { HeroListComponent } from './hero-list/hero-list.component';
 import { HeroFormComponent } from './hero-form/hero-form.component';
 import { HeroInputComponent } from './hero-form/hero-input/hero-input.component';
+import { ConfirmModalComponent } from './hero-list/confirm-modal/confirm-modal.component';
 // Services
 import { NavigationService } from './hero-navbar/navigation.service';
 import { HeroListService } from './hero-list/hero-list.service';
@@ -36,7 +37,8 @@ FusionChartsModule.fcRoot(FusionCharts, Charts, FintTheme);
     HeroOverviewComponent,
     HeroListComponent,
     HeroFormComponent,
-    HeroInputComponent
+    HeroInputComponent,
+    ConfirmModalComponent
   ],
   providers: [
     NavigationService,
