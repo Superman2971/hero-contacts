@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   // api_url: 'http://localhost:3080'
-  api_url: 'https://hero-contacts-server.herokuapp.com:11098'
+  api_url: 'https://hero-contacts-server.herokuapp.com'
 };
 
 /*
