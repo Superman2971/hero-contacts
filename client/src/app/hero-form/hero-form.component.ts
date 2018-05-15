@@ -13,11 +13,24 @@ export class HeroFormComponent implements OnChanges {
   hovering: boolean = false;
   dragResults: string = 'Drop Zone';
   worthy: boolean = false;
+  mobile: boolean = false;
 
   constructor(
     private formService: HeroFormService,
     private listService: HeroListService
-  ) {}
+  ) {
+    // Simple method using navigator to detect if we are on mobile/tablet device
+    if ( navigator.userAgent.match(/Android/i)
+      || navigator.userAgent.match(/webOS/i)
+      || navigator.userAgent.match(/iPhone/i)
+      || navigator.userAgent.match(/iPad/i)
+      || navigator.userAgent.match(/iPod/i)
+      || navigator.userAgent.match(/BlackBerry/i)
+      || navigator.userAgent.match(/Windows Phone/i)
+    ) {
+      this.mobile = true;
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     this.dirtyForm = false; // reset form when the Input changes
@@ -57,6 +70,10 @@ export class HeroFormComponent implements OnChanges {
     const data = ev.dataTransfer.getData('text');
     this.hovering = false;
     // Check what the drag result was
+    this.checkIfWorth(data);
+  }
+
+  checkIfWorth(data) {
     if (data === 'Mjolnir') {
       this.worthy = true;
     } else if (data === 'Iron Man') {

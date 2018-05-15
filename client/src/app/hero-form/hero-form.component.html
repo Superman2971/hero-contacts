@@ -38,10 +38,11 @@
   </div>
   <div class="form-container drop-area">
     <div *ngIf="!worthy">
-      <div>Are you worthy? Move Mjolnir to prove you are worthy of submitting a hero!</div>
+      <div>Are you worthy? Touch Mjolnir to prove you are worthy of submitting a hero!</div>
       <i *ngIf="dirtyForm" class="material-icons invalid">error</i>
     </div>
-    <div *ngIf="!worthy" class="drop-container">
+    <!-- Prove You Are Worthy / Human Check for DESKTOP-->
+    <div *ngIf="!worthy && !mobile" class="drop-container">
       <div class="icons">
         <img id="Mjolnir" src="/assets/thor.png" alt="Mjolnir Thor's Hammer" draggable="true" (dragstart)="drag($event)" (dragend)="dragEnd($event)"/>
         <img id="Iron Man" src="/assets/ironman.png" alt="Iron Man" draggable="true" (dragstart)="drag($event)" (dragend)="dragEnd($event)"/>
@@ -54,6 +55,16 @@
         (drop)="droppedIcon($event)"
         [innerHtml]="dragResults"
       ></div>
+    </div>
+    <!-- Prove You Are Worthy / Human Check for MOBILE/TABLET-->
+    <div *ngIf="!worthy && mobile" class="drop-container">
+      <div class="icons">
+        <img id="Mjolnir" src="/assets/thor.png" alt="Mjolnir Thor's Hammer" (click)="checkIfWorth('Mjolnir')"/>
+        <img id="Iron Man" src="/assets/ironman.png" alt="Iron Man" (click)="checkIfWorth('Iron Man')"/>
+        <img id="Captain America" src="/assets/captain.png" alt="Captain America" (click)="checkIfWorth('Captain America')"/>
+        <img id="The Hulk" src="/assets/hulk.png" alt="The Hulk" (click)="checkIfWorth('The Hulk')"/>
+      </div>
+      <div class="dropzone" [class.hovering]="hovering" [innerHtml]="dragResults"></div>
     </div>
     <div *ngIf="worthy">
       <div>Congratulations, you are indeed worthy!</div>
