@@ -23,6 +23,7 @@ export class HeroNavbarComponent implements OnDestroy {
   constructor(private navService: NavigationService) {
     this._navSubscription = navService.navigate.subscribe((page) => {
       this.selectedTab = page;
+      document.getElementById('top').scrollIntoView();
     });
   }
 

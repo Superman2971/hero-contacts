@@ -83,7 +83,7 @@ export class HeroServer {
       body: this.valid_hero_schema
     }), (req, res) => {
       // replace '.' which are not allowed in an ID for Firebase
-      const emailId = req.body.email.replace('.', '%2E');
+      const emailId = req.body.email.toLowerCase().replace('.', '%2E');
       // Create a deep copy of the data object with JSON.parse(JSON.stringify(obj))
       const heroData = JSON.parse(JSON.stringify({
         name: {
