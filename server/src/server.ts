@@ -9,7 +9,7 @@ var serviceAccount = require('../hero-contacts-firebase-adminsdk-nhml8-f62328697
 export class HeroServer {
   private app: express.Application;
   private server: Server;
-  private port: string | number = 3080;
+  private port: string | number = process.env.PORT || 3080;
   private valid_hero_schema = Joi.object().keys({
     name: Joi.object().keys({
       first: Joi.string().required(),
@@ -54,10 +54,16 @@ export class HeroServer {
       if (allowedOrigins.indexOf(origin) > -1) {
         res.setHeader('Access-Control-Allow-Origin', origin);
       }
+      // res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
       res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
       res.header('Access-Control-Allow-Credentials', 'true');
-      return next();
+      // intercept OPTIONS method
+      if ('OPTIONS' == req.method) {
+        res.send(200);
+      } else {
+        next();
+      }
     });
   }
 
