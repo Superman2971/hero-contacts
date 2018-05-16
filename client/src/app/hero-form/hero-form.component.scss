@@ -36,6 +36,12 @@
         }
       }
     }
+
+    &.error {
+      color: $tertiary;
+      font-size: 24px;
+      margin: 24px 0 0;
+    }
   }
 
   .button {

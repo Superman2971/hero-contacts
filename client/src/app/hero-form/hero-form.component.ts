@@ -15,6 +15,7 @@ export class HeroFormComponent implements OnChanges {
   dragResults: string = 'Drop Zone';
   worthy: boolean = false;
   mobile: boolean = false;
+  error: string;
 
   constructor(
     private formService: HeroFormService,
@@ -77,6 +78,7 @@ export class HeroFormComponent implements OnChanges {
 
   checkIfWorth(data) {
     if (data === 'Mjolnir') {
+      this.error = null;
       this.worthy = true;
     } else if (data === 'Iron Man') {
       this.dragResults = 'You have excellent taste!';
@@ -118,7 +120,12 @@ export class HeroFormComponent implements OnChanges {
           this.listService.listChange();
           this.navService.changePage(1);
         }
-      }, (error) => {
+      }, (errorResponse) => {
+        if (errorResponse.error && errorResponse.error.message) {
+          this.error = errorResponse.error.message;
+        } else {
+          this.error = 'Our apologies but there was an issue with our server. Please try again later.';
+        }
         this.worthy = false;
       });
     }

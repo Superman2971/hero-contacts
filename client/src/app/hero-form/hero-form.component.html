@@ -71,5 +71,8 @@
       <i class="material-icons">check</i>
     </div>
   </div>
+  <div *ngIf="error" class="form-container error">
+    <div [innerHtml]="error"></div>
+  </div>
   <div class="button" (click)="submit()">SUBMIT HERO</div>
 </div>
