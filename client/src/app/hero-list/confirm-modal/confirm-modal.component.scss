@@ -1,21 +1,25 @@
 @import '../../../variables.scss';
 
-.modal-overlay {
+.modal {
   display: none;
 
   &.active {
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.24);
     display: flex;
+    left: 8px;
+    position: absolute;
+    top: 62px;
+    z-index: 1;
+  }
+
+  .modal-overlay {
+    background-color: rgba(0, 0, 0, 0.24);
     height: 100vh;
-    justify-content: center;
-    left: 0;
+    left: 100vw;
     min-height: 100%;
     min-width: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     width: 100vw;
-    z-index: 999;
   }
 
   .modal-card {
@@ -28,6 +32,7 @@
     min-width: 300px;
     overflow: auto;
     padding: 40px;
+    z-index: 2;
 
     @media (max-width: 790px) {
       max-width: 90vw;

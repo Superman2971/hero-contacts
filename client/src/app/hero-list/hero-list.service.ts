@@ -21,4 +21,9 @@ export class HeroListService {
   public deleteHero(email): Observable<any> {
     return this.http.delete(`${environment.api_url}/hero/${email}`);
   }
+
+  public getGoogleSheetData(): Observable<any> {
+    // tslint:disable-next-line
+    return this.http.get('https://spreadsheets.google.com/feeds/list/1VjOWGfnpGrVMFykG12Cghgm7K3rYz4A6YVJ2dRtlTwQ/1/public/values?alt=json');
+  }
 }

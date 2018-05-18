@@ -5,22 +5,22 @@
         <span [innerHtml]="hero.name.first"></span>&nbsp;<span [innerHtml]="hero.name.last"></span>
       </div>
       <i class="material-icons" (click)="goToForm(hero)">edit</i>
-      <i class="material-icons" (click)="deleteRequest(hero.email)">delete</i>
+      <i class="material-icons" (click)="hero.openModal=true; selectedHero=hero.email">delete</i>
     </div>
     <div class="body">
       <a [href]="'mailto:' + hero.email" [innerHtml]="hero.email"></a>
       <div>Age: <span [innerHtml]="hero.age"></span></div>
       <div>Favorite Food: <span [innerHtml]="hero.faveFood"></span></div>
     </div>
+    <hero-confirm-modal
+      question="Are you sure you want to delete this Hero?"
+      [active]="hero.openModal"
+      (closed)="hero.openModal=false"
+      (response)="deleteHero($event)"
+    ></hero-confirm-modal>
   </div>
   <div class="button" (click)="goToForm()">
     <i class="material-icons">person_add</i>
     <div>Add Hero</div>
   </div>
-  <hero-confirm-modal
-    question="Are you sure you want to delete this Hero?"
-    [active]="openModal"
-    (closed)="openModal=false"
-    (response)="deleteHero($event)"
-  ></hero-confirm-modal>
 </div>

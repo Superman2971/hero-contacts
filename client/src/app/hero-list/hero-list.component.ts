@@ -26,11 +26,6 @@ export class HeroListComponent {
     this.event.emit(hero);
   }
 
-  deleteRequest(email) {
-    this.openModal = true;
-    this.selectedHero = email;
-  }
-
   deleteHero(modalResponse) {
     if (modalResponse && this.selectedHero) {
       this.listService.deleteHero(this.selectedHero).subscribe((response) => {

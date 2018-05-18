@@ -16,4 +16,11 @@
       [dataSource]="chartData.dataSource"
     ></fusioncharts>
   </div>
+  <div *ngIf="cmsData">
+    <div *ngFor="let info of cmsData">
+      <div class="title" [innerHtml]="info.title"></div>
+      <div class="description" [innerHtml]="info.description"></div>
+      <div class="description" [innerHtml]="info.description2"></div>
+    </div>
+  </div>
 </div>
